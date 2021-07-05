@@ -1,10 +1,15 @@
+require_relative './lib/template_parser.rb'
+require_relative './lib/report_builder.rb'
+
 class MailApp
   def self.send_mail(campaing, recipients_list)
-    recipients = recipients_list.reduce({}) do |list, recipient|
-      list[recipient] = {}
-      list
-    end
+    template = TemplateParser.new(campaing.html)
+    report = ReportBuilder.new(campaign.store, template, recipients_list)
 
-    {recipient_variables: recipients, html: campaing.html, sender: 'from@example.com'}
+    {
+      sender: 'from@example.com',
+      html: campaing.html,
+      recipient_variables: report.build
+    }
   end
 end

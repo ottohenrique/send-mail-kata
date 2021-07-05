@@ -53,7 +53,7 @@ describe ReportBuilderClient do
 
   
   let(:orders) { [order1, order2, order3] }
-  let(:client) { OpenStruct.new(first_name: "John", last_name: "Doe", orders: orders) }
+  let(:client) { OpenStruct.new(first_name: "John", last_name: "Doe", email: "johndoe@example.com", orders: orders) }
 
   subject { ReportBuilderClient.new(client) }
 
@@ -63,5 +63,9 @@ describe ReportBuilderClient do
 
   context "#last_order_amount" do
     it { expect(subject.last_order_amount).to eq(30.0) }
+  end
+
+  context "#email" do
+    it { expect(subject.email).to eq("johndoe@example.com") }
   end
 end

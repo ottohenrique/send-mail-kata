@@ -4,6 +4,7 @@ require 'ostruct'
 require_relative './../src/mail_app.rb'
 
 describe MailApp do
+  
   context '#send_mail' do
     let(:html_template) do
       <<~TEMPLATE
