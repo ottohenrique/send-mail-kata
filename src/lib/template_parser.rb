@@ -1,6 +1,6 @@
 class TemplateParser
   VARIABLES = /{{\s?([\w]*)\s?(\|\s?fallback:\s?'[\w ]*'\s?)?}}/
-  COMPONENTS = /{{\s[a-zA-Z0-9_ ]\s|\sfallback:\s'.?'\s*}}/
+  FALLBACK = /\|\s?fallback:\s?'([a-z0-9_]+)'\s?/
 
   attr_accessor :variables
 
@@ -12,7 +12,14 @@ class TemplateParser
   private
   
   def parse_variables
-    @variables ||= @template.scan(VARIABLES).map { |var, _| var.strip }.sort
+    @variables ||= @template.scan(VARIABLES).map do |variable, fallback|
+      if fallback.nil?
+        [variable, nil]
+      else
+        fallback_value = fallback.match(FALLBACK).captures.first
+        [variable, fallback_value]
+      end
+    end
   end
 
 end
