@@ -19,7 +19,9 @@ describe MailApp do
       TEMPLATE
     end
 
-    let(:campaing) { OpenStruct.new(html: html_template) }
+    let(:subscribers) { [OpenStruct.new(first_name: "John", last_name: "Doe", orders: [])]}
+    let(:store) { OpenStruct.new(name: "A Big Store", subscribers: subscribers) }
+    let(:campaing) { OpenStruct.new(html: html_template, store: store) }
     let(:recipients) { ['johndoe@example.com', 'marluce@example.com'] }
 
     subject { MailApp.send_mail(campaing, recipients) }
