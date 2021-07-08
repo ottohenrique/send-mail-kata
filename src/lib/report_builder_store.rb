@@ -3,12 +3,7 @@ require_relative './report_builder_client.rb'
 class ReportBuilderStore
   def initialize(store)
     @store = store
-
-    if @store.subscribers.nil?
-      @subscribers = []
-    else
-      @subscribers = store.subscribers.map { |client| ReportBuilderClient.new(client) }
-    end
+    @subscribers = nil
   end
 
   def store_name
@@ -16,6 +11,8 @@ class ReportBuilderStore
   end 
 
   def subscribers
-    @subscribers
+    @subscribers ||= @store.subscribers.map do |client|
+      ReportBuilderClient.new(client)
+    end
   end
 end
